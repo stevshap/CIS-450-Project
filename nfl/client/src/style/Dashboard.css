@@ -1,7 +1,11 @@
-.mycustom-jumbotron {
-  border:10px solid #003366;
-  width: 300px;
-  margin: 0 auto
+.box{
+  /* box-model: border-box; */
+  border: 8px solid transparent;
+  background-clip:padding-box;
+}
+
+.container{
+  display: flex
 }
 
 .genres-container {

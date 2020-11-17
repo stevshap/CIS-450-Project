@@ -76,7 +76,8 @@ export default class Dashboard extends React.Component {
 
         <br></br>
         <div className="container movies-container">
-          <div className="jumbotron mycustom-jumbotron ">
+        <div class="row">
+          <div className="jumbotron col-md-6 box">
             <div className="h5">Sort Player Stats by Category</div>
             <div className="filters-container">
             {this.state.filters.map(filter=> (<p>{filter}</p>))}
@@ -84,7 +85,7 @@ export default class Dashboard extends React.Component {
           </div>
 
           <br></br>
-          <div className="jumbotron">
+          <div className="jumbotron col-md-6 box">
             <div className="movies-container">
               <div className="movies-header">
                 <div className="header-lg"><strong>Player</strong></div>
@@ -92,7 +93,7 @@ export default class Dashboard extends React.Component {
                 <div className="header"><strong>Hometown</strong></div>
               </div>
               <div className="results-container" id="results">
-                
+              </div>
               </div>
             </div>
           </div>
