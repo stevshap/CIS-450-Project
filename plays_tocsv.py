@@ -25,6 +25,19 @@ for col in plays_df.columns.tolist():
     if col not in to_keep:
         exclude.append(col)
 
-plays_df.drop(exclude, axis=1)
+def to_zero(x):
+    x = str(x)
+    if x == 'nan':
+        return x.replace('nan', '0')
+    else:
+        return x
+
+
+plays_df = plays_df.drop(exclude, axis=1)
+
+plays_df['rusher_player_id'] = plays_df['rusher_player_id'].apply(to_zero)
+plays_df['passer_player_id'] = plays_df['passer_player_id'].apply(to_zero)
+plays_df['receiver_player_id'] = plays_df['receiver_player_id'].apply(to_zero)
 
 plays_df.to_csv('plays.csv', index=False)
+
