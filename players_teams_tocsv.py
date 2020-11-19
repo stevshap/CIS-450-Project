@@ -43,5 +43,15 @@ for col in players_df.columns.tolist():
 
 players_df = players_df.drop(exclude, axis=1)
 
+# fix empty strings in player.csv
+def to_Nil(x):
+    x = str(x)
+    if x == 'nan':
+        return x.replace('nan', 'NIL')
+    else:
+        return x
+
+players_df['status'] = players_df['status'].apply(to_Nil)
+
 # export to csv
 players_df.to_csv('players.csv', index=False)
