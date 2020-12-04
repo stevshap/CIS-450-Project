@@ -1,22 +1,33 @@
+#root {
+  max-width: 100%;
+}
+
+.jumbotron {
+  background: rgba(204, 204, 204, 0.2);
+}
+
 .box{
   /* box-model: border-box; */
-  border: 8px solid transparent;
+  max-width: 100%;
+  border: 1px solid transparent;
   background-clip:padding-box;
 }
 
 .container{
-  display: flex
+  max-width: 100%;
+  display: flex;
 }
 
-.genres-container {
-  /* margin: 10px 0; */
+.items-container {
+  max-width: 100%;
+  margin: 10px 0;
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
   /* border-bottom: 1px solid #ddd; */
 }
 
-.genres-container .genre {
+.items-container .item {
   flex: 1 0 20%;
   margin: 15px 0;
   padding: 10px;
@@ -24,21 +35,126 @@
   box-sizing: border-box;
 }
 
-.genres-container .genre:hover {
+.items-container .item:hover {
   background-color: #ddd;
 }
 
-.movies-container .movies-header, .results-container .movie {
+.items-container .items-header, .results-container .items {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
   height: 40px;
 }
 
-.movie .title, .movies-header .header-lg {
+.items .name, .items-header .header-lg {
   flex: 1 0 50%;
 }
 
-.movies-header .header, .movie .rating, .movie .votes {
+.items-header .header, .player , .team, .hometown {
   flex: 1 0 25%;
+}
+
+body {
+  font-family: "Helvetica Neue",sans-serif;
+  font-weight: lighter;
+}
+
+.content {
+  width: 94%;
+  margin: 4em auto;
+  font-size: 20px;
+  line-height: 30px;
+  text-align: justify;
+}
+
+.logo {
+  line-height: 60px;
+  position: fixed;
+  float: left;
+  margin: 16px 46px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+
+nav {
+  position: fixed;
+  width: 100%;
+  line-height: 60px;
+  z-index: 100;
+}
+
+nav ul {
+  line-height: 60px;
+  list-style: none;
+  background: rgba(9, 27, 27);
+  overflow: hidden;
+  color: #fff;
+  padding: 0;
+  text-align: right;
+  margin: 0;
+  padding-right: 40px;
+  transition: 1s;
+}
+
+nav.black ul {
+  background: #000;
+}
+
+nav ul li {
+  display: inline-block;
+  padding: 16px 40px;;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 16px;
+}
+
+.menu-icon {
+  line-height: 60px;
+  width: 100%;
+  background: #000;
+  text-align: right;
+  box-sizing: border-box;
+  padding: 15px 24px;
+  cursor: pointer;
+  color: #fff;
+  display: none;
+}
+
+@media(max-width: 786px) {
+
+  .logo {
+        position: fixed;
+        top: 0;
+        margin-top: 16px;
+  }
+
+  nav ul {
+        max-height: 0px;
+        background: #000;
+  }
+
+  nav.black ul {
+        background: #000;
+  }
+
+  .showing {
+        max-height: 34em;
+  }
+
+  nav ul li {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 24px;
+        text-align: center;
+  }
+
+  .menu-icon {
+        display: block;
+  }
+
 }
