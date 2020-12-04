@@ -53,5 +53,8 @@ def to_Nil(x):
 
 players_df['status'] = players_df['status'].apply(to_Nil)
 
+# keep players who played in seasons 2010 to most current
+players_df = players_df[players_df['season'] >= 2010]
+
 # export to csv
 players_df.to_csv('players.csv', index=False)
