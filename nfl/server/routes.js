@@ -10,10 +10,10 @@ var connection = mysql.createPool(config);
 
 
 /* ---- Q1a (Dashboard) ---- */
-function getAllGenres(req, res) {
+function getAllTeams(req, res) {
     var query = `
-    SELECT DISTINCT genre
-    FROM Genres
+    SELECT DISTINCT name
+    FROM Teams
   `;
   connection.query(query, function(err, rows, fields) {
     if (err) console.log(err);
@@ -130,7 +130,7 @@ function bestGenresPerDecade(req, res) {
 
 // The exported functions, which can be accessed in index.js.
 module.exports = {
-	getAllGenres: getAllGenres,
+	getAllTeams: getAllTeams,
 	getTopInGenre: getTopInGenre,
 	getRecs: getRecs,
 	getDecades: getDecades,
