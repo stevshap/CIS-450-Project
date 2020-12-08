@@ -1,30 +1,31 @@
-  CREATE TABLE `proj_db`.`Teams` (
-  `teamId` INT NOT NULL,
-  `season` INT NOT NULL,
-  `city` VARCHAR(25) NOT NULL,
-  `name` VARCHAR(15) NOT NULL,
-  PRIMARY KEY (`teamId`));
+CREATE TABLE `proj_db`.`Teams` (
+  `team_id` INT NOT NULL,
+  `city` VARCHAR(25) NULL,
+  `nickname` VARCHAR(15) NULL,
+  PRIMARY KEY (`team_id`));
 
-  CREATE TABLE `proj_db`.`Players` (
-  `name` INT NOT NULL,
+CREATE TABLE `proj_db`.`Players` (
+  `name` VARCHAR(45) NULL,
   `status` VARCHAR(5) NULL,
-  `position` VARCHAR(5) NOT NULL,
-  `nflId` INT NOT NULL,
-  `playerId` VARCHAR(15) NOT NULL,
-  `homeTown` VARCHAR(45) NOT NULL,
-  `college` VARCHAR(45) NOT NULL,
-  `season` INT NOT NULL,
-  `teamId` INT NOT NULL,
-  PRIMARY KEY (`nflId`)),
-  FOREIGN KEY (`teamId`)
-  REFERENCES `proj_db`.`Teams` (`teamId`)
-  ON DELETE NO ACTION
-  ON UPDATE NO ACTION;
+  `position` VARCHAR(5) NULL,
+  `nfl_id` INT NULL,
+  `global_id` VARCHAR(10) NOT NULL,
+  `home_town` VARCHAR(45) NULL,
+  `college` VARCHAR(45) NULL,
+  `season` INT NULL,
+  `team_id` INT NULL,
+  INDEX `team_id_idx` (`team_id` ASC) VISIBLE,
+  CONSTRAINT `team_id`
+    FOREIGN KEY (`team_id`)
+    REFERENCES `proj_db`.`Teams` (`team_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
 
-  CREATE TABLE `proj_db`.`Plays` (
-  `awayTeam` VARCHAR(4) NOT NULL,
-  `homeTeam` VARCHAR(4) NOT NULL,
-  `passerId` VARCHAR(15) NULL,
-  `playType` VARCHAR(15) NOT NULL,
-  `receiverId` VARCHAR(15) NULL,
-  `rusherId` VARCHAR(15) NULL);
+CREATE TABLE `proj_db`.`Plays` (
+  `away_team` VARCHAR(5) NULL,
+  `yards` INT NULL,
+  `home_team` VARCHAR(5) NULL,
+  `passer_id` VARCHAR(10) NULL,
+  `play_type` VARCHAR(15) NULL,
+  `reciever_id` VARCHAR(10) NULL,
+  `rusher_id` VARCHAR(10) NULL);
