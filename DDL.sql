@@ -8,12 +8,13 @@ CREATE TABLE `proj_db`.`Players` (
   `name` VARCHAR(45) NULL,
   `status` VARCHAR(5) NULL,
   `position` VARCHAR(5) NULL,
-  `nfl_id` INT NULL,
+  `nfl_id` INT NOT NULL,
   `global_id` VARCHAR(10) NOT NULL,
   `home_town` VARCHAR(45) NULL,
   `college` VARCHAR(45) NULL,
-  `season` INT NULL,
+  `season` INT NOT NULL,
   `team_id` INT NULL,
+  PRIMARY KEY (`nfl_id`, `season`),
   INDEX `team_id_idx` (`team_id` ASC) VISIBLE,
   CONSTRAINT `team_id`
     FOREIGN KEY (`team_id`)
