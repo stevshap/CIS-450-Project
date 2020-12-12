@@ -138,7 +138,7 @@ ORDER BY playerCount DESC
 LIMIT 10;
 
 /**************** Query 7 ****************/
-WITH runs AS (
+WITH Runs AS (
     SELECT rusher_id,
         COUNT(*) as count
     From Plays
@@ -146,8 +146,8 @@ WITH runs AS (
     GROUP BY rusher_id
 )
 SELECT Players.name as name,
-    runs.count AS rushes
-FROM runs
-    JOIN Players ON runs.rusher_id = Players.global_id
+    Runs.count AS rushes
+FROM Runs
+    JOIN Players ON Runs.rusher_id = Players.global_id
 ORDER BY count DESC
 LIMIT 10;
