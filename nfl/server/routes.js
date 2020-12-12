@@ -12,7 +12,7 @@ var connection = mysql.createPool(config);
 /* ---- Q1a (Dashboard) ---- */
 function getAllTeams(req, res) {
     var query = `
-    SELECT DISTINCT name
+    SELECT DISTINCT nickname
     FROM Teams
   `;
   connection.query(query, function(err, rows, fields) {
