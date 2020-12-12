@@ -28,6 +28,7 @@ export default class Dashboard extends React.Component {
   // React function that is called when the page load.
   componentDidMount() {
     // Send an HTTP request to the server.
+    console.log("jkkhk");
     fetch("http://localhost:8081/teams", {
       method: 'GET' // The type of HTTP request.
     })
@@ -39,7 +40,7 @@ export default class Dashboard extends React.Component {
         console.log("checking teamList");
         console.log(teamList);
         let teamDivs = teamList.map((teamObj, i) =>
-          <ItemButton id={"button-" + teamObj.name} onClick={() => this.showPlayers(teamObj.name)} item={teamObj.name} />
+          <ItemButton id={"button-" + teamObj.nickname} onClick={() => this.showPlayers(teamObj.nickname)} item={teamObj.nickname} />
         );
 
         // Set the state of the teams list to the value returned by the HTTP response from the server.
@@ -47,7 +48,7 @@ export default class Dashboard extends React.Component {
           teams: teamDivs
         })
         console.log("checking curr state teams");
-        console.log(this.state.teams);
+        //console.log(this.state.teams);
       })
       .catch(err => console.log(err))	// Print the error if there is one.
   }
