@@ -6,88 +6,92 @@ SELECT nfl_iD,
 FROM Players
 GROUP BY nfl_iD
 ORDER BY num_teams_played_for DESC;
+
 /**************** Query 2 ****************/
 WITH Top5HomeCities AS (
-    SELECT hometown,
+    SELECT home_town,
         COUNT(*) AS num_players_produced
     FROM Players
-    GROUP BY hometown
+    WHERE home_town <> ''
+    GROUP BY home_town
     ORDER BY num_players_produced DESC
     LIMIT 5
-), WITH PasserPlaysFromTop5 AS (
-    SELECT t.hometown,
+), PasserPlaysFromTop5 AS (
+    SELECT t.home_town,
         COUNT(*) AS num_passer_plays
-    FROM Players p
-        JOIN Top5HomeCities t ON p.hometown = t.hometown
-        JOIN Plays play ON p.nflID = play.passer_player_id
-    GROUP BY t.hometown
+    From Players p
+        JOIN Top5HomeCities t ON p.home_town = t.home_town
+        JOIN Plays play ON p.global_id = play.passer_id
+    GROUP BY t.home_town
 ),
-WITH ReceiverPlaysFromTop5 AS (
-    SELECT t.hometown,
+ReceiverPlaysFromTop5 AS (
+    SELECT t.home_town,
         COUNT(*) AS num_receiver_plays
-    FROM Players p
-        JOIN Top5HomeCities t ON p.hometown = t.hometown
-        JOIN Plays play ON p.nflID = play.receiver_player_id
-    GROUP BY t.hometown
+    From Players p
+        JOIN Top5HomeCities t ON p.home_town = t.home_town
+        JOIN Plays play ON p.global_id = play.reciever_id
+    GROUP BY t.home_town
 ),
-WITH RusherPlaysFromTop5 AS (
-    SELECT t.hometown,
+RusherPlaysFromTop5 AS (
+    SELECT t.home_town,
         COUNT(*) AS num_rusher_plays
-    FROM Players p
-        JOIN Top5HomeCities t ON p.hometown = t.hometown
-        JOIN Plays play ON p.nflID = play.rusher_player_id
-    GROUP BY hometown
+    From Players p
+        JOIN Top5HomeCities t ON p.home_town = t.home_town
+        JOIN Plays play ON p.global_id = play.rusher_id
+    GROUP BY t.home_town
 )
-SELECT t.hometown,
+SELECT t.home_town,
     AVG(p.num_passer_plays) AS avg_passer_plays,
-    AVG(re.num_receiver_plays) AS avg_reciver_plays,
+    AVG(re.num_receiver_plays) AS avg_receiver_plays,
     AVG(ru.num_rusher_plays) AS avg_rusher_plays
 FROM Top5HomeCities t
-    JOIN PasserPlaysFromTop5 p ON t.hometown = p.hometown
-    JOIN ReceiverPlaysFromTop5 re ON t.hometown = re.hometown
-    JOIN WITH RusherPlaysFromTop5 ru ON t.hometown = ru.hometown
-GROUP BY t.hometown;
+    JOIN PasserPlaysFromTop5 p ON t.home_town = p.home_town
+    JOIN ReceiverPlaysFromTop5 re ON t.home_town = re.home_town
+    JOIN RusherPlaysFromTop5 ru ON t.home_town = ru.home_town
+GROUP BY t.home_town;
+
 /**************** Query 3 ****************/
 WITH Lowest5HomeCities AS (
-    SELECT hometown,
+    SELECT home_town,
         COUNT(*) AS num_players_produced
     FROM Players
-    GROUP BY hometown
+    GROUP BY home_town
     ORDER BY num_players_produced
     LIMIT 5
-), WITH AvgPasserPlaysFromLow5AS (
-    SELECT l.hometown,
+), PasserPlaysFromLow5 AS (
+    SELECT t.home_town,
         COUNT(*) AS num_passer_plays
-    FROM Players p
-        JOIN Lowest5HomeCities l ON p.hometown = l.hometown
-        JOIN Plays play ON p.nflID = play.passer_player_id
-    GROUP BY l.hometown
+    From Players p
+        JOIN Lowest5HomeCities t ON p.home_town = t.home_town
+        JOIN Plays play ON p.global_id = play.passer_id
+    GROUP BY t.home_town
 ),
-WITH AvgReceiverPlaysFromLow5 AS (
-    SELECT l.hometown,
+ReceiverPlaysFromLow5 AS (
+    SELECT t.home_town,
         COUNT(*) AS num_receiver_plays
-    FROM Players p
-        JOIN Lowest5HomeCities l ON p.hometown = l.hometown
-        JOIN Plays play ON p.nflID = play.receiver_player_id
-    GROUP BY l.hometown
+    From Players p
+        JOIN Lowest5HomeCities t ON p.home_town = t.home_town
+        JOIN Plays play ON p.global_id = play.reciever_id
+    GROUP BY t.home_town
 ),
-WITH AvgRusherPlaysFromLow5 AS (
-    SELECT l.hometown,
+RusherPlaysFromLow5 AS (
+    SELECT t.home_town,
         COUNT(*) AS num_rusher_plays
-    FROM Players p
-        JOIN Low5HomeCities l ON p.hometown = l.hometown
-        JOIN Plays play ON p.nflID = play.rusher_player_id
-    GROUP BY l.hometown
+    From Players p
+        JOIN Lowest5HomeCities t ON p.home_town = t.home_town
+        JOIN Plays play ON p.global_id = play.rusher_id
+    GROUP BY t.home_town
 )
-SELECT l.hometown,
+SELECT t.home_town,
     AVG(p.num_passer_plays) AS avg_passer_plays,
-    AVG(re.num_receiver_plays) AS avg_reciver_plays,
+    AVG(re.num_receiver_plays) AS avg_receiver_plays,
     AVG(ru.num_rusher_plays) AS avg_rusher_plays
-FROM Lowest5HomeCities l
-    JOIN PasserPlaysFromLow5 p ON t.hometown = p.hometown
-    JOIN ReceiverPlaysFromLow5 re ON t.hometown = re.hometown
-    JOIN WITH RusherPlaysFromLow5 ru ON t.hometown = ru.hometown
-GROUP BY l.hometown;
+FROM Lowest5HomeCities t
+    JOIN PasserPlaysFromLow5 p ON t.home_town = p.home_town
+    JOIN ReceiverPlaysFromLow5 re ON t.home_town = re.home_town
+    JOIN RusherPlaysFromLow5 ru ON t.home_town = ru.home_town
+GROUP BY t.home_town;
+
 /**************** Query 4 ****************/
 SELECT nfl_iD,
     season,
@@ -99,6 +103,7 @@ WHERE position = 'RB'
 GROUP BY nfl_iD
 ORDER BY num_years_played DESC
 LIMIT 5;
+
 /**************** Query 5 ****************/
 WITH UPennLinebackers AS (
     SELECT nfl_id,
@@ -113,6 +118,7 @@ SELECT DISTINCT upenn.name,
     t.nickname AS teamName
 FROM UPennLinebackers upenn
     JOIN Teams t ON t.team_id = upenn.team_id;
+
 /**************** Query 6 ****************/
 WITH ActivePlayers AS (
     SELECT *
@@ -130,6 +136,7 @@ FROM UniquePlayers
 GROUP BY college
 ORDER BY playerCount DESC
 LIMIT 10;
+
 /**************** Query 7 ****************/
 WITH runs AS (
     SELECT rusher_id,
