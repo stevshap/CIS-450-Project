@@ -23,10 +23,11 @@ CREATE TABLE `proj_db`.`Players` (
     ON UPDATE NO ACTION);
 
 CREATE TABLE `proj_db`.`Plays` (
-  `away_team` VARCHAR(5) NULL,
-  `yards` INT NULL,
-  `home_team` VARCHAR(5) NULL,
+  `away_team` VARCHAR(5) NOT NULL,
+  `yards` INT NOT NULL,
+  `home_team` VARCHAR(5) NOT NULL,
   `passer_id` VARCHAR(10) NULL,
   `play_type` VARCHAR(15) NULL,
   `reciever_id` VARCHAR(10) NULL,
-  `rusher_id` VARCHAR(10) NULL);
+  `rusher_id` VARCHAR(10) NULL),
+  PRIMARY KEY (`away_team`, `yards`, `home_team`));
