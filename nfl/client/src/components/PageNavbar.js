@@ -1,5 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../style/PageNavbar.css';
 
 export default class PageNavbar extends React.Component {
 	constructor(props) {
@@ -39,7 +40,10 @@ export default class PageNavbar extends React.Component {
 		return (
 			<div className="PageNavbar">
 				<nav className="navbar navbar-expand-lg navbar-light bg-light">
-			      <span className="navbar-brand center">NFL Football Statistics</span>
+				  <div class="logo-image">
+				  <span className="navbar-brand center">NFL Football Statistics</span>
+							<img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a2/National_Football_League_logo.svg/1200px-National_Football_League_logo.svg.png" class="img-fluid"></img>
+					</div>
 			      <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
 			        <div className="navbar-nav">
 			        {this.state.navDivs}

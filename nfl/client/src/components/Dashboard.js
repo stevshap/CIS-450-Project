@@ -62,23 +62,28 @@ export default class Dashboard extends React.Component {
               <i class="fa fa-bars fa-2x"></i>
             </div>
             <div class="logo">
-              NFL TEAM STATISTICS
+              <img width="10%" src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a2/National_Football_League_logo.svg/1200px-National_Football_League_logo.svg.png" class="img-fluid"></img>
             </div>
             <div class="menu">
               <ul>
-                 <li>Filter by:</li>
+                 <li>Filter NFL statistics by:</li>
                   <li><a href="#">Players</a></li>
                   <li><a href="#">Teams</a></li>
                   <li><a href="#">Hometowns</a></li>
               </ul>
             </div>
         </nav>
-        <div className="jumbotron">
-        </div>
+
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
         <br></br>
         <div className="container categories-container">
         <div className="col">
-          <div className="jumbotron box">
+          <div className="jumbotron bg-dark box text-white">
             <div className="h5">Sort Player Stats by Category</div>
             <div className="items-container">
             {this.state.filters.map(filter=> (
@@ -88,7 +93,7 @@ export default class Dashboard extends React.Component {
           </div>
 
           <br></br>
-          <div className="jumbotron box">
+          <div className="jumbotron bg-dark box text-white">
             <div className="h5">View Stats by Team</div>
               <div className="items-container">
               {this.state.teams}
