@@ -9,7 +9,7 @@ var connection = mysql.createPool(config);
 /* -------------------------------------------------- */
 
 
-/* ---- Q1a (Dashboard) ---- */
+/* ---- get teams (Dashboard) ---- */
 function getAllTeams(req, res) {
     var query = `
     SELECT DISTINCT nickname
@@ -24,16 +24,16 @@ function getAllTeams(req, res) {
 };
 
 
-/* ---- Q1b (Dashboard) ---- */
-function getTopInGenre(req, res) {
-  var inputGenre = req.params.genre;
-  //console.log(inputGenre);
-  var query = `
-    SELECT m.title, m.rating, m.vote_count
-    FROM Genres g JOIN Movies m ON g.movie_id = m.id
-    WHERE genre = '${inputGenre}'
-    ORDER BY rating DESC, vote_count DESC
-    LIMIT 10;
+/* ---- get top 5 (Dashboard) ---- */
+function PlayersOnMostTeams(req, res) {
+    var query = `
+    SELECT nfl_iD,
+    name,
+    team_id,
+    COUNT(*) AS num_teams_played_for
+    FROM Players
+    GROUP BY nfl_iD
+    ORDER BY num_teams_played_for DESC;
   `;
   connection.query(query, function(err, rows, fields) {
     if (err) console.log(err);
@@ -42,6 +42,24 @@ function getTopInGenre(req, res) {
       res.json(rows);
     }
   });
+
+
+  // var inputGenre = req.params.genre;
+  // //console.log(inputGenre);
+  // var query = `
+  //   SELECT m.title, m.rating, m.vote_count
+  //   FROM Genres g JOIN Movies m ON g.movie_id = m.id
+  //   WHERE genre = '${inputGenre}'
+  //   ORDER BY rating DESC, vote_count DESC
+  //   LIMIT 10;
+  // `;
+  // connection.query(query, function(err, rows, fields) {
+  //   if (err) console.log(err);
+  //   else {
+  //     //console.log(rows);
+  //     res.json(rows);
+  //   }
+  // });
 };
 
 /* ---- Q2 (Recommendations) ---- */

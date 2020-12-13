@@ -22,6 +22,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.get('/teams', routes.getAllTeams);
 
 
+app.get('/playersMostTeamsPlayed', routes.PlayersOnMostTeams);
 
 
 
