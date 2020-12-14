@@ -31,6 +31,9 @@ def to_zero(x):
     x = str(x)
     if x == 'nan':
         return x.replace('nan', '0')
+    elif len(x) > 10:
+        x = '1'
+        return x
     else:
         return x
 
@@ -80,6 +83,10 @@ plays_df['rusher_player_id'] = plays_df['rusher_player_id'].apply(to_zero)
 plays_df['passer_player_id'] = plays_df['passer_player_id'].apply(to_zero)
 
 plays_df['receiver_player_id'] = plays_df['receiver_player_id'].apply(to_zero)
+
+# clean wacky long IDs in rusher/passer/receiver_player_id
+indexNames = plays_df[(plays_df['rusher_player_id'] == '1') | (plays_df['passer_player_id'] == '1') | (plays_df['receiver_player_id'] == '1')].index
+plays_df = plays_df.drop(indexNames)
 
 # clean description string column by extracting yards gained on play and renaming column to yards_gained
 plays_df['desc'] = plays_df['desc'].apply(get_yards)
