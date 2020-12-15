@@ -1,7 +1,7 @@
 var config = require('./db-config.js');
 var mysql = require('mysql');
 
-config.connectionLimit = 10;
+config.connectionLimit = 1000;
 var connection = mysql.createPool(config);
 
 /* -------------------------------------------------- */
@@ -24,8 +24,8 @@ function getAllTeams(req, res) {
 };
 
 
-/* ---- get top 5 (Dashboard) ---- */
-function PlayersOnMostTeams(req, res) {
+/* ---- get top 5 players who have played on the most teams (Players) ---- */
+function playersOnMostTeams(req, res) {
     var query = `
     SELECT nfl_iD,
     name,
@@ -148,8 +148,8 @@ function bestGenresPerDecade(req, res) {
 
 // The exported functions, which can be accessed in index.js.
 module.exports = {
-	getAllTeams: getAllTeams,
-	getTopInGenre: getTopInGenre,
+  getAllTeams: getAllTeams,
+  playersOnMostTeams: playersOnMostTeams,
 	getRecs: getRecs,
 	getDecades: getDecades,
   bestGenresPerDecade: bestGenresPerDecade

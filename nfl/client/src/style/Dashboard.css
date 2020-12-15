@@ -36,7 +36,7 @@
 }
 
 .items-container .item:hover {
-  background-color: #ddd;
+  background-color: rgb(199, 199, 199);
 }
 
 .items-container .items-header, .results-container .items {

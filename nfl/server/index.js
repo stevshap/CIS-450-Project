@@ -22,15 +22,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.get('/teams', routes.getAllTeams);
 
 
-app.get('/playersMostTeamsPlayed', routes.PlayersOnMostTeams);
-
-
-
-
-/* ---- Q1b (Dashboard) ---- */
-app.get('/genres/:genre', routes.getTopInGenre); // Hint: Replace () => {} with the appropriate route handler.
-
-
+app.get('/playersMostTeamsPlayed', routes.playersOnMostTeams);
 
 
 
