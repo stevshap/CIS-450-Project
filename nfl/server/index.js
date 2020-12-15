@@ -27,32 +27,6 @@ app.get('/playersMostTeamsPlayed', routes.playersOnMostTeams);
 
 
 
-
-
-/* ---- Q2 (Recommendations) ---- */
-app.get('/recommendations/:name', routes.getRecs);
-
-
-
-
-
-/* ---- (Best Genre) ---- */
-app.get('/decades', routes.getDecades);
-
-
-
-
-
-
-/* ---- Q3b (Best Genre) ---- */
-app.get('/decades/:decade', routes.bestGenresPerDecade);
-
-
-
-
-
-
-
 app.listen(8081, () => {
 	console.log(`Server listening on PORT 8081`);
 });
