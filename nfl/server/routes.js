@@ -155,9 +155,14 @@ connection.query(query, function(err, rows, fields) {
 //   });
 // };
 
+function sum(a, b) {
+  return a + b;
+}
+
 // The exported functions, which can be accessed in index.js.
 module.exports = {
   getAllTeams: getAllTeams,
   playersOnMostTeams: playersOnMostTeams,
+  sum: sum
 
 }
