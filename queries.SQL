@@ -151,3 +151,95 @@ FROM Runs
     JOIN Players ON Runs.rusher_id = Players.global_id
 ORDER BY count DESC
 LIMIT 10;
+
+/**************** Query 2 (unoptimized) ****************/
+WITH Top5HomeCities AS (
+    SELECT *,
+        COUNT(*) AS num_players_produced
+    FROM Players
+    GROUP BY home_town
+    ORDER BY num_players_produced DESC
+),
+PasserPlaysFromTop5 AS (
+    SELECT t.home_town,
+        COUNT(*) AS num_passer_plays
+    From Players p
+        JOIN Top5HomeCities t ON p.home_town = t.home_town
+        JOIN Plays play ON p.global_id = play.passer_id
+    GROUP BY t.home_town
+)
+SELECT t.home_town,
+    AVG(p.num_passer_plays) AS avg_passer_plays
+FROM Top5HomeCities t
+    JOIN PasserPlaysFromTop5 p ON t.home_town = p.home_town
+WHERE t.home_town <> ''
+GROUP BY t.home_town;
+
+/**************** Query 2 (optimized) ****************/
+WITH Top5HomeCities AS (
+    SELECT home_town,
+        COUNT(*) AS num_players_produced
+    FROM Players
+    WHERE home_town <> ''
+    GROUP BY home_town
+    ORDER BY num_players_produced DESC
+),
+PasserPlaysFromTop5 AS (
+    SELECT t.home_town,
+        COUNT(*) AS num_passer_plays
+    From Players p
+        JOIN Top5HomeCities t ON p.home_town = t.home_town
+        JOIN Plays play ON p.global_id = play.passer_id
+    GROUP BY t.home_town
+)
+SELECT t.home_town,
+    AVG(p.num_passer_plays) AS avg_passer_plays
+FROM Top5HomeCities t
+    JOIN PasserPlaysFromTop5 p ON t.home_town = p.home_town
+GROUP BY t.home_town;
+
+/**************** Query 3 (unoptimized) ****************/
+WITH Lowest5HomeCities AS (
+    SELECT *,
+        COUNT(*) AS num_players_produced
+    FROM Players
+    GROUP BY home_town
+    ORDER BY num_players_produced
+),
+RusherPlaysFromLow5 AS (
+    SELECT t.home_town,
+        COUNT(*) AS num_rusher_plays
+    From Players p
+        JOIN Lowest5HomeCities t ON p.home_town = t.home_town
+        JOIN Plays play ON p.global_id = play.rusher_id
+    GROUP BY t.home_town
+)
+SELECT t.home_town,
+    AVG(ru.num_rusher_plays) AS avg_rusher_plays
+FROM Lowest5HomeCities t
+    JOIN RusherPlaysFromLow5 ru ON t.home_town = ru.home_town
+WHERE t.home_town <> ''
+GROUP BY t.home_town;
+
+/**************** Query 3 (optimized) ****************/
+WITH Lowest5HomeCities AS (
+    SELECT home_town,
+        COUNT(*) AS num_players_produced
+    FROM Players
+    WHERE home_town <> ''
+    GROUP BY home_town
+    ORDER BY num_players_produced
+),
+RusherPlaysFromLow5 AS (
+    SELECT t.home_town,
+        COUNT(*) AS num_rusher_plays
+    From Players p
+        JOIN Lowest5HomeCities t ON p.home_town = t.home_town
+        JOIN Plays play ON p.global_id = play.rusher_id
+    GROUP BY t.home_town
+)
+SELECT t.home_town,
+    AVG(ru.num_rusher_plays) AS avg_rusher_plays
+FROM Lowest5HomeCities t
+    JOIN RusherPlaysFromLow5 ru ON t.home_town = ru.home_town
+GROUP BY t.home_town;
