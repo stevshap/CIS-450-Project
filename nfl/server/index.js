@@ -24,7 +24,17 @@ app.get('/teams', routes.getAllTeams);
 
 app.get('/playersMostTeamsPlayed', routes.playersOnMostTeams);
 
+app.get('/hometownsMostPassPlays', routes.hometownsWithMostNFLPassPlaysOnAvg);
 
+app.get('/hometownsFewestRushPlays', routes.hometownsWithFewestNFLRushPlaysOnAvg);
+
+app.get('/PosAndStateByExperience', routes.runningBacksWithMostSeasons);
+
+app.get('/collegeAndPositionToPlayInNFL', routes.uPennLinebackersToPlayInNFL);
+
+app.get('/collegesByNumberOfPros', routes.collegesWithMostPlayersSentToNFL);
+
+app.get('/playersByNumberOfRunPlays', routes.playersWithMostRunPlaysExecuted);
 
 
 app.listen(8081, () => {
