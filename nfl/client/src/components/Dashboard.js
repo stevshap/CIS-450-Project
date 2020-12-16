@@ -10,15 +10,113 @@ export default class Dashboard extends React.Component {
     super(props);
 
     this.state = {
-      filters:["Player History", "Season", "Play Stats", "NFL Teams", "College Teams", "Hometown"],
-      teams:[]
+      teams:[],
+      displayName: "Choose a filter to see dataset",
+      displayData: ["_", "_", "_", "_", "_", "_", "_", "_","_", "_", "_", "_", "_", "_", "_","_", "_", "_", "_", "_", "_", "_","_", "_", "_", "_", "_", "_"],
     }
 
-    this.filterBy = this.filterBy.bind(this);
+    this.filterByTeams = this.filterByTeams.bind(this);
+    this.filterByPlayers = this.filterByPlayers.bind(this);
+    this.filterByColleges = this.filterByColleges.bind(this);
+    this.filterByHometowns = this.filterByHometowns.bind(this);
     this.showPlayers = this.showPlayers.bind(this);
   }
 
-  filterBy(filter) {
+  filterByTeams() {
+    // Send an HTTP request to the server.
+    fetch("http://localhost:8081/teams", {
+      method: 'GET' // The type of HTTP request.
+    })
+      .then(res => res.json()) // Convert the response data to a JSON.
+      .then(teamList => {
+        if (!teamList) return;
+        // Map each teamObj in teamList to an HTML element:
+        // A button which triggers the showMovies function for each team.
+        let teamDivs = teamList.map((teamObj, i) =>
+          <ItemButton id={"button-" + teamObj.name} onClick={() => this.showPlayers(teamObj.name)} item={teamObj.name} />
+        );
+
+        // Set the state of the teams list to the value returned by the HTTP response from the server.
+        this.setState({
+          displayName: "NFL Teams",
+          displayData: teamDivs
+        })
+      })
+      .catch(err => console.log(err))	// Print the error if there is one.
+
+  }
+
+  filterByPlayers() {
+    // Send an HTTP request to the server.
+    fetch("http://localhost:8081/players", {
+      method: 'GET' // The type of HTTP request.
+    })
+      .then(res => res.json()) // Convert the response data to a JSON.
+      .then(playerList => {
+        if (!playerList) return;
+        // Map each teamObj in teamList to an HTML element:
+        // A button which triggers the showMovies function for each team.
+        let playerDivs = playerList.map((playerObj, i) =>
+          <ItemButton id={"button-" + playerObj.name} onClick={() => this.showPlayers(playerObj.name)} item={playerObj.name} />
+        );
+
+        // Set the state of the teams list to the value returned by the HTTP response from the server.
+        this.setState({
+          displayName: "NFL Players",
+          displayData: playerDivs
+        })
+      })
+      .catch(err => console.log(err))	// Print the error if there is one.
+
+  }
+
+
+  filterByColleges() {
+    // Send an HTTP request to the server.
+    fetch("http://localhost:8081/colleges", {
+      method: 'GET' // The type of HTTP request.
+    })
+      .then(res => res.json()) // Convert the response data to a JSON.
+      .then(collegeList => {
+        if (!collegeList) return;
+        // Map each teamObj in teamList to an HTML element:
+        // A button which triggers the showMovies function for each team.
+        let collegeDivs = collegeList.map((collegeObj, i) =>
+          <ItemButton id={"button-" + collegeObj.name} onClick={() => this.showPlayers(collegeObj.name)} item={collegeObj.name} />
+        );
+
+        // Set the state of the teams list to the value returned by the HTTP response from the server.
+        this.setState({
+          displayName: "College Teams",
+          displayData: collegeDivs
+        })
+      })
+      .catch(err => console.log(err))	// Print the error if there is one.
+
+  }
+
+  filterByHometowns() {
+    // Send an HTTP request to the server.
+    fetch("http://localhost:8081/hometowns", {
+      method: 'GET' // The type of HTTP request.
+    })
+      .then(res => res.json()) // Convert the response data to a JSON.
+      .then(hometownList => {
+        if (!hometownList) return;
+        // Map each teamObj in teamList to an HTML element:
+        // A button which triggers the showMovies function for each team.
+        let hometownDivs = hometownList.map((hometownObj, i) =>
+          <ItemButton id={"button-" + hometownObj.name} onClick={() => this.showPlayers(hometownObj.name)} item={hometownObj.name} />
+        );
+
+        // Set the state of the teams list to the value returned by the HTTP response from the server.
+        this.setState({
+          displayName: "NFL Player Hometowns",
+          displayData: hometownDivs
+        })
+      })
+      .catch(err => console.log(err))	// Print the error if there is one.
+
   }
 
   showPlayers(team) {
@@ -28,30 +126,7 @@ export default class Dashboard extends React.Component {
 
   // React function that is called when the page load.
   componentDidMount() {
-    // Send an HTTP request to the server.
-    console.log("jkkhk");
-    fetch("http://localhost:8081/teams", {
-      method: 'GET' // The type of HTTP request.
-    })
-      .then(res => res.json()) // Convert the response data to a JSON.
-      .then(teamList => {
-        if (!teamList) return;
-        // Map each teamObj in teamList to an HTML element:
-        // A button which triggers the showMovies function for each team.
-        console.log("checking teamList");
-        console.log(teamList);
-        let teamDivs = teamList.map((teamObj, i) =>
-          <ItemButton id={"button-" + teamObj.nickname} onClick={() => this.showPlayers(teamObj.nickname)} item={teamObj.nickname} />
-        );
 
-        // Set the state of the teams list to the value returned by the HTTP response from the server.
-        this.setState({
-          teams: teamDivs
-        })
-        console.log("checking curr state teams");
-        //console.log(this.state.teams);
-      })
-      .catch(err => console.log(err))	// Print the error if there is one.
   }
 
 
@@ -62,29 +137,30 @@ export default class Dashboard extends React.Component {
         <br></br>
         <br></br>
         <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
         <div className="container categories-container">
-        <div className="col">
+        <div className="row">
+        <div class="col-md-4">
           <div className="jumbotron bg-dark box text-white">
-            <div className="h5">Sort Player Stats by Category</div>
+            <div className="h5">Choose a Filter on NFL Statistics</div>
             <div className="items-container">
-            {this.state.filters.map(filter=> (
-            <ItemButton id={"button-" + filter} onClick={() => this.filterBy(filter)} item={filter}/>
-            ))}
+            <ItemButton id={"filter-players"} onClick={() => this.filterByPlayers()} item={"Players"}/>
+            <ItemButton id={"filter-teams"} onClick={() => this.filterByTeams()} item={"Teams"}/>
+            <ItemButton id={"filter-colleges"} onClick={() => this.filterByColleges()} item={"Colleges"}/>
+            <ItemButton id={"filter-hometowns"} onClick={() => this.filterByHometowns()} item={"Hometowns"}/>
             </div>
           </div>
+          </div>
+          <div class="col-md-8">
           <div className="jumbotron">
-            <div className="h5">View Stats by Team</div>
+            <div className="h5">{this.state.displayName}</div>
               <div className="items-container">
-              {this.state.teams}
+              {this.state.displayData}
               </div>
-              </div>
+            </div>
+          </div>
+          </div>
           </div>
         </div>
-      </div>
     );
   }
 }

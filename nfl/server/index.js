@@ -20,32 +20,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // The route localhost:8081/genres is registered to the function
 // routes.getAllGenres, specified in routes.js.
 app.get('/teams', routes.getAllTeams);
+app.get('/players', routes.getAllPlayers);
+app.get('/colleges', routes.getAllColleges);
+app.get('/hometowns', routes.getAllHometowns);
 
 
 app.get('/playersMostTeamsPlayed', routes.playersOnMostTeams);
-
-
-
-
-
-
-/* ---- Q2 (Recommendations) ---- */
-app.get('/recommendations/:name', routes.getRecs);
-
-
-
-
-
-/* ---- (Best Genre) ---- */
-app.get('/decades', routes.getDecades);
-
-
-
-
-
-
-/* ---- Q3b (Best Genre) ---- */
-app.get('/decades/:decade', routes.bestGenresPerDecade);
 
 
 

@@ -12,7 +12,7 @@ var connection = mysql.createPool(config);
 /* ---- get teams *TEST QUERY (Dashboard) ---- */
 function getAllTeams(req, res) {
     var query = `
-    SELECT DISTINCT nickname
+    SELECT DISTINCT nickname AS name
     FROM Teams
   `;
   connection.query(query, function(err, rows, fields) {
@@ -22,6 +22,49 @@ function getAllTeams(req, res) {
     }
   });
 };
+
+/* ---- get players *TEST QUERY (Dashboard) ---- */
+function getAllPlayers(req, res) {
+  var query = `
+  SELECT DISTINCT name
+  FROM Players
+`;
+connection.query(query, function(err, rows, fields) {
+  if (err) console.log(err);
+  else {
+    res.json(rows);
+  }
+});
+};
+
+/* ---- get colleges *TEST QUERY (Dashboard) ---- */
+function getAllColleges(req, res) {
+  var query = `
+  SELECT DISTINCT college AS name
+  FROM Players
+`;
+connection.query(query, function(err, rows, fields) {
+  if (err) console.log(err);
+  else {
+    res.json(rows);
+  }
+});
+};
+
+/* ---- get colleges *TEST QUERY (Dashboard) ---- */
+function getAllHometowns(req, res) {
+  var query = `
+  SELECT DISTINCT home_town AS name
+  FROM Players
+`;
+connection.query(query, function(err, rows, fields) {
+  if (err) console.log(err);
+  else {
+    res.json(rows);
+  }
+});
+};
+
 
 /* ---- PLAYERS PAGE  ---- */
 
@@ -68,6 +111,7 @@ connection.query(query, function(err, rows, fields) {
 });
 
 };
+
 
 
 
@@ -158,6 +202,9 @@ connection.query(query, function(err, rows, fields) {
 // The exported functions, which can be accessed in index.js.
 module.exports = {
   getAllTeams: getAllTeams,
+  getAllPlayers: getAllPlayers,
+  getAllColleges: getAllColleges,
+  getAllHometowns: getAllHometowns,
   playersOnMostTeams: playersOnMostTeams,
 
 }

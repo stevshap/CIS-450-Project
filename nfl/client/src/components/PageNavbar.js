@@ -38,22 +38,22 @@ export default class PageNavbar extends React.Component {
 
 	render() {
 		return (
-			<nav>
-				<div class="menu-icon">
-				  <i class="fa fa-bars fa-2x"></i>
-				</div>
-				<div class="logo">
-				  <img width="10%" src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a2/National_Football_League_logo.svg/1200px-National_Football_League_logo.svg.png" class="img-fluid"></img>
-				</div>
-				<div class="menu">
-				  <ul>
-					 <li>Filter NFL statistics by:</li>
-					  <li><div className="nav-item nav-link active" key={"players"} href="/PlayersPage">Players</div></li>
-					  <li><a href="#">Teams</a></li>
-					  <li><a href="#">Hometowns</a></li>
-				  </ul>
-				</div>
-			</nav>
+			<div className="PageNavbar">
+				<nav className="navbar navbar-inverse navbar-expand-lg">
+				<span className="navbar-brand center"> </span>
+				<span className="navbar-brand center"> </span>
+					<div class="logo-image">
+						<img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a2/National_Football_League_logo.svg/1200px-National_Football_League_logo.svg.png" class="img-fluid"></img>
+					</div>
+					<span className="navbar-brand center"> </span>
+			      <span className="navbar-brand center">NFL statistics</span>
+			      <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+			        <div className="navbar-nav">
+			        {this.state.navDivs}
+			        </div>
+			      </div>
+			    </nav>
+			</div>
   	);
 	}
 }
