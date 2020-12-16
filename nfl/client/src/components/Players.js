@@ -11,12 +11,38 @@ export default class Players extends React.Component {
 
     this.state = {
       displayData: [],
+      displayName: "",
     }
 
-    this.playersMostRushesExecuted = this.playersMostRushesExecuted.bind(this);
+    this.playersMostRunPlays = this.playersMostRunPlays.bind(this);
+    this.runningBacksWithMostSeasons = this.runningBacksWithMostSeasons.bind(this);
   }
 
-  playersMostRushesExecuted() {
+  runningBacksWithMostSeasons() {
+    // Send an HTTP request to the server.
+    fetch("http://localhost:8081/PosAndStateByExperience", {
+      method: 'GET' // The type of HTTP request.
+    })
+      .then(res => res.json()) // Convert the response data to a JSON.
+      .then(playerList => {
+        if (!playerList) return;
+        // Map each teamObj in teamList to an HTML element:
+        // A button which triggers the showMovies function for each team.
+        let playerDivs = playerList.map((playerObj, i) =>
+          <ItemButton id={"button-" + playerObj.name} onClick={() => this.showPlayers(playerObj.name)} item={playerObj.name + ": " + playerObj.num_years_played} />
+        );
+
+        // Set the state of the teams list to the value returned by the HTTP response from the server.
+        this.setState({
+          displayData: playerDivs,
+          displayName: "Top 5 California Running Back Season Counts"
+        })
+      })
+      .catch(err => console.log(err))	// Print the error if there is one.
+  }
+
+
+  playersMostRunPlays() {
     // Send an HTTP request to the server.
     fetch("http://localhost:8081/playersByNumberOfRunPlays", {
       method: 'GET' // The type of HTTP request.
@@ -32,7 +58,8 @@ export default class Players extends React.Component {
 
         // Set the state of the teams list to the value returned by the HTTP response from the server.
         this.setState({
-          displayData: playerDivs
+          displayData: playerDivs,
+          displayName: "Players With the Most Run Plays"
         })
       })
       .catch(err => console.log(err))	// Print the error if there is one.
@@ -77,7 +104,8 @@ export default class Players extends React.Component {
 
         // Set the state of the teams list to the value returned by the HTTP response from the server.
         this.setState({
-          displayData: playerDivs
+          displayData: playerDivs,
+          displayName: "Players Who Have Played on the Most NFL Teams"
         })
       })
       .catch(err => console.log(err))	// Print the error if there is one.
@@ -98,13 +126,14 @@ export default class Players extends React.Component {
             <div className="h5">Search for Players: </div>
             <div className="items-container">
             <ItemButton id={"query-playersMostTeamsPlayed"} onClick={() => this.componentDidMount()} item={"Players Who Have Played on the Most NFL Teams"}/>
-            <ItemButton id={"query-playersMostRushesExecuted"} onClick={() => this.playersMostRushesExecuted()} item={"Players With the Most Successful Rushes"}/>
+            <ItemButton id={"query-playersMostRushesExecuted"} onClick={() => this.playersMostRunPlays()} item={"Players With the Most Successful Rushes"}/>
+            <ItemButton id={"query-runningBacksWithMostSeasons"} onClick={() => this.runningBacksWithMostSeasons()} item={"Top 5 California Running Back Season Counts"}/>
             </div>
           </div>
           </div>
           <div class="col-md-8">
           <div className="jumbotron">
-            <div className="h5">Players Who Have Played on the Most NFL Teams</div>
+            <div className="h5">{this.state.displayName}</div>
               <div className="items-container">
               {this.state.displayData}
               </div>
