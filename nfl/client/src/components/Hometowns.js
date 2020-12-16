@@ -76,7 +76,7 @@ export default class Hometowns extends React.Component {
         // Map each teamObj in teamList to an HTML element:
         // A button which triggers the showMovies function for each team.
         let hometownDivs = hometownList.map((hometownObj, i) =>
-          <ItemButton id={"button-" + hometownObj.name} onClick={() => this.showHometowns(hometownObj.name)} item={hometownObj.home_town + ": " + hometownObj.avg_passer_plays} />
+          <ItemButton id={"button-" + hometownObj.name} onClick={() => this.showHometowns(hometownObj.name)} item={hometownObj.home_town + ": " + hometownObj.avg_rusher_plays} />
         );
 
         // Set the state of the teams list to the value returned by the HTTP response from the server.
