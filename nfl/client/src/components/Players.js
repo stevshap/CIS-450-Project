@@ -12,9 +12,32 @@ export default class Players extends React.Component {
     this.state = {
       displayData: [],
     }
+    //this.playersMostTeamsPlayed() = this.playersMostTeamsPlayed().bind(this);
   }
 
-  // React function that is called when the page load.
+  playersMostTeamsPlayed() {
+    // Send an HTTP request to the server.
+    fetch("http://localhost:8081/playersMostTeamsPlayed", {
+      method: 'GET' // The type of HTTP request.
+    })
+      .then(res => res.json()) // Convert the response data to a JSON.
+      .then(playerList => {
+        if (!playerList) return;
+        // Map each teamObj in teamList to an HTML element:
+        // A button which triggers the showMovies function for each team.
+        let playerDivs = playerList.map((playerObj, i) =>
+          <ItemButton id={"button-" + playerObj.name} onClick={() => this.showPlayers(playerObj.name)} item={playerObj.name} />
+        );
+
+        // Set the state of the teams list to the value returned by the HTTP response from the server.
+        this.setState({
+          displayData: playerDivs
+        })
+      })
+      .catch(err => console.log(err))	// Print the error if there is one.
+  }
+
+  // SET DEFAULT
   componentDidMount() {
     // Send an HTTP request to the server.
     fetch("http://localhost:8081/playersMostTeamsPlayed", {
@@ -35,8 +58,6 @@ export default class Players extends React.Component {
         })
       })
       .catch(err => console.log(err))	// Print the error if there is one.
-      console.log("uggg");
-      console.log(this.state.displayData);
   }
 
 
@@ -53,6 +74,10 @@ export default class Players extends React.Component {
           <div className="jumbotron bg-dark box text-white">
             <div className="h5">Search for Player: </div>
             <div className="items-container">
+            <ItemButton id={"query-playersMostTeamsPlayed"} onClick={() => this.playersMostTeamsPlayed()} item={"Players Who Have Played on the Most NFL Teams"}/>
+            <ItemButton id={"filter-teams"} onClick={() => this.filterByTeams()} item={"Teams"}/>
+            <ItemButton id={"filter-colleges"} onClick={() => this.filterByColleges()} item={"Colleges"}/>
+            <ItemButton id={"filter-hometowns"} onClick={() => this.filterByHometowns()} item={"Hometowns"}/>
             </div>
           </div>
           </div>
