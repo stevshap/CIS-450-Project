@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import PageNavbar from './PageNavbar';
 import ItemButton from './ItemButton';
 import Autocomplete from './Autocomplete';
+import Button from 'react-bootstrap/Button';
 
 
 export default class Players extends React.Component {
@@ -19,7 +20,17 @@ export default class Players extends React.Component {
     this.playersMostRunPlays = this.playersMostRunPlays.bind(this);
     this.runningBacksWithMostSeasons = this.runningBacksWithMostSeasons.bind(this);
     this.getAllPlayers = this.getAllPlayers.bind(this);
+    this.handleInput = this.handleInput.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
+
+    handleInput(event) {
+      //not  implemented but can be based on handleSearch() in Hometown.js
+    }
+
+    handleSearch() {
+      //not  implemented but can be based on handleSearch() in Hometown.js
+    }
 
     getAllPlayers() {
     // Send an HTTP request to the server.
@@ -151,7 +162,10 @@ export default class Players extends React.Component {
         <div class="col-md-4">
           <div className="jumbotron bg-dark box text-white">
             <div className="h5">Search for Players: </div>
+            <div className="row">
             <Autocomplete suggestions={this.state.players}/>
+            <Button variant="success" onClick={this.handleSearch}>Search</Button>
+            </div>
             <div className="items-container">
             <ItemButton id={"query-playersMostTeamsPlayed"} onClick={() => this.componentDidMount()} item={"Players Who Have Played on the Most NFL Teams"}/>
             <ItemButton id={"query-playersMostRushesExecuted"} onClick={() => this.playersMostRunPlays()} item={"Players With the Most Successful Rushes"}/>

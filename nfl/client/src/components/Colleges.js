@@ -4,6 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import PageNavbar from './PageNavbar';
 import ItemButton from './ItemButton';
 import Autocomplete from './Autocomplete';
+import Button from 'react-bootstrap/Button';
+
 
 
 export default class Colleges extends React.Component {
@@ -19,7 +21,18 @@ export default class Colleges extends React.Component {
     this.collegeAndPositionToPlayInNFL = this.collegeAndPositionToPlayInNFL.bind(this);
     this.collegesByNumberOfPros = this.collegesByNumberOfPros.bind(this);
     this.getAllColleges = this.getAllColleges.bind(this);
+    this.handleInput = this.handleInput.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
+
+  handleInput(event) {
+    //not  implemented but can be based on handleSearch() in Hometown.js
+  }
+
+  handleSearch() {
+    //not  implemented but can be based on handleSearch() in Hometown.js
+  }
+
   getAllColleges() {
     // Send an HTTP request to the server.
     fetch("http://localhost:8081/colleges", {
@@ -128,7 +141,10 @@ export default class Colleges extends React.Component {
         <div class="col-md-4">
           <div className="jumbotron bg-dark box text-white">
             <div className="h5">Search for Colleges: </div>
+            <div className="row">
             <Autocomplete suggestions={this.state.colleges}/>
+            <Button variant="success" onClick={this.handleSearch}>Search</Button>
+            </div>
             <div className="items-container">
             <ItemButton id={"query-collegesByNumberOfPros"} onClick={() => this.collegesByNumberOfPros()} item={"Colleges Ranked by NFL Players Produced"}/>
             <ItemButton id={"query-collegeAndPositionToPlayInNFL"} onClick={() => this.collegeAndPositionToPlayInNFL()} item={"UPenn Linebackers Now Playing in the NFL"}/>

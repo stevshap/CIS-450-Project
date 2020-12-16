@@ -4,7 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import PageNavbar from './PageNavbar';
 import ItemButton from './ItemButton';
 import Autocomplete from './Autocomplete';
-import Button from 'react-bootstrap/Button'
+import Button from 'react-bootstrap/Button';
+
 
 
 export default class Hometowns extends React.Component {
