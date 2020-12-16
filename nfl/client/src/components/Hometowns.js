@@ -3,6 +3,7 @@ import '../style/Dashboard.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PageNavbar from './PageNavbar';
 import ItemButton from './ItemButton';
+import Autocomplete from './Autocomplete';
 
 
 export default class Hometowns extends React.Component {
@@ -12,11 +13,37 @@ export default class Hometowns extends React.Component {
     this.state = {
       displayData: [],
       displayName: "",
+      hometown: "CA", 
+      hometowns: [],
     }
 
     this.runningBacksWithMostSeasons = this.runningBacksWithMostSeasons.bind(this);
     this.hometownsMostPassPlays = this.hometownsMostPassPlays.bind(this);
     this.hometownsFewestRushPlays = this.hometownsFewestRushPlays.bind(this);
+    this.getAllHometowns = this.getAllHometowns.bind(this);
+  }
+
+  getAllHometowns() {
+    // Send an HTTP request to the server.
+    fetch("http://localhost:8081/hometowns", {
+      method: 'GET' // The type of HTTP request.
+    })
+      .then(res => res.json()) // Convert the response data to a JSON.
+      .then(hometownList => {
+        if (!hometownList) return;
+        // Map each teamObj in teamList to an HTML element:
+        // A button which triggers the showMovies function for each team.
+        let hometownDivs = hometownList.map((hometownObj, i) =>
+          <ItemButton id={"button-" + hometownObj.name} onClick={() => this.showPlayers(hometownObj.name)} item={hometownObj.name} />
+        );
+
+        // Set the state of the teams list to the value returned by the HTTP response from the server.
+        this.setState({
+          hometowns: hometownDivs
+        })
+      })
+      .catch(err => console.log(err))	// Print the error if there is one.
+
   }
 
   runningBacksWithMostSeasons() {
@@ -90,6 +117,7 @@ export default class Hometowns extends React.Component {
 
   // SET DEFAULT
   componentDidMount() {
+        this.getAllHometowns();
         // Send an HTTP request to the server.
         fetch("http://localhost:8081/hometownsMostPassPlays", {
             method: 'GET' // The type of HTTP request.
@@ -125,6 +153,7 @@ export default class Hometowns extends React.Component {
         <div class="col-md-4">
           <div className="jumbotron bg-dark box text-white">
             <div className="h5">Search for Hometowns: </div>
+            <Autocomplete suggestions={this.state.hometowns}/>
             <div className="items-container">
             <ItemButton id={"query-hometownsMostPassPlays"} onClick={() => this.hometownsMostPassPlays()} item={"Hometowns With the Most NFL Pass Plays On Average"}/>
             <ItemButton id={"query-hometownsFewestRushPlays"} onClick={() => this.hometownsFewestRushPlays()} item={"Hometowns With the Fewest NFL Rush Plays On Average"}/>

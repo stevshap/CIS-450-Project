@@ -51,7 +51,7 @@ connection.query(query, function(err, rows, fields) {
 });
 };
 
-/* ---- get colleges *TEST QUERY (Dashboard) ---- */
+/* ---- get hometown *TEST QUERY (Dashboard) ---- */
 function getAllHometowns(req, res) {
   var query = `
   SELECT DISTINCT home_town AS name
