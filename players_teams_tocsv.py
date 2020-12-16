@@ -35,7 +35,7 @@ players_df = players_df.rename(columns=lambda x: x.replace('teamPlayers.', ''))
 
 # prepare columns to keep and columns to exclude during clean, based on our original schema
 # college may not be in our schema but should be included
-cols_tokeep = ['nflId', 'season', 'teamId', 'displayName', 'status', 'position', 'gsisId', 'hometown', 'collegeID', 'college']
+cols_tokeep = ['nflId', 'season', 'teamId', 'displayName', 'status', 'position', 'gsisId', 'homeTown', 'collegeID', 'collegeName']
 exclude = []
 for col in players_df.columns.tolist():
     if col not in cols_tokeep:
@@ -52,6 +52,9 @@ def to_Nil(x):
         return x
 
 players_df['status'] = players_df['status'].apply(to_Nil)
+
+# keep players who played in seasons 2010 to most current
+players_df = players_df[players_df['season'] >= 2010]
 
 # export to csv
 players_df.to_csv('players.csv', index=False)
