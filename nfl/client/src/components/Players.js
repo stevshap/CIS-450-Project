@@ -5,6 +5,7 @@ import PageNavbar from './PageNavbar';
 import ItemButton from './ItemButton';
 import Autocomplete from './Autocomplete';
 import Button from 'react-bootstrap/Button';
+import PlayerRow from './PlayerRow';
 
 
 export default class Players extends React.Component {
@@ -66,7 +67,8 @@ export default class Players extends React.Component {
         // Map each teamObj in teamList to an HTML element:
         // A button which triggers the showMovies function for each team.
         let playerDivs = playerList.map((playerObj, i) =>
-          <ItemButton id={"button-" + playerObj.name} onClick={() => this.showPlayers(playerObj.name)} item={playerObj.name + ": " + playerObj.num_years_played} />
+          // <ItemButton id={"button-" + playerObj.name} onClick={() => this.showPlayers(playerObj.name)} item={playerObj.name + ": " + playerObj.num_years_played} />
+          <PlayerRow name={playerObj.name} value={playerObj.num_years_played} />
         );
 
         // Set the state of the teams list to the value returned by the HTTP response from the server.
@@ -90,7 +92,8 @@ export default class Players extends React.Component {
         // Map each teamObj in teamList to an HTML element:
         // A button which triggers the showMovies function for each team.
         let playerDivs = playerList.map((playerObj, i) =>
-          <ItemButton id={"button-" + playerObj.name} onClick={() => this.showPlayers(playerObj.name)} item={playerObj.name + ": " + playerObj.rushes} />
+          // <ItemButton id={"button-" + playerObj.name} onClick={() => this.showPlayers(playerObj.name)} item={playerObj.name + ": " + playerObj.rushes} />
+          <PlayerRow name={playerObj.name} value={playerObj.rushes} />
         );
 
         // Set the state of the teams list to the value returned by the HTTP response from the server.
@@ -137,13 +140,14 @@ export default class Players extends React.Component {
         // Map each teamObj in teamList to an HTML element:
         // A button which triggers the showMovies function for each team.
         let playerDivs = playerList.map((playerObj, i) =>
-          <ItemButton id={"button-" + playerObj.name} onClick={() => this.showPlayers(playerObj.name)} item={playerObj.name + ": " + playerObj.num_teams_played_for} />
+          // <ItemButton id={"button-" + playerObj.name} onClick={() => this.showPlayers(playerObj.name)} item={playerObj.name + ": " + playerObj.num_teams_played_for} />
+          <PlayerRow name={playerObj.name} value={playerObj.num_teams_played_for} />
         );
 
         // Set the state of the teams list to the value returned by the HTTP response from the server.
         this.setState({
           displayData: playerDivs,
-          displayName: "Players Who Have Played on the Most NFL Teams"
+          displayName: "Players Who Have Played the Most NFL Seasons"
         })
       })
       .catch(err => console.log(err))	// Print the error if there is one.
@@ -167,19 +171,35 @@ export default class Players extends React.Component {
             <Button variant="success" onClick={this.handleSearch}>Search</Button>
             </div>
             <div className="items-container">
-            <ItemButton id={"query-playersMostTeamsPlayed"} onClick={() => this.componentDidMount()} item={"Players Who Have Played on the Most NFL Teams"}/>
+            <ItemButton id={"query-playersMostTeamsPlayed"} onClick={() => this.componentDidMount()} item={"Players Who Have Played the Most NFL Seasons"}/>
             <ItemButton id={"query-playersMostRushesExecuted"} onClick={() => this.playersMostRunPlays()} item={"Players With the Most Successful Rushes"}/>
             <ItemButton id={"query-runningBacksWithMostSeasons"} onClick={() => this.runningBacksWithMostSeasons()} item={"Top 5 California Running Back Season Counts"}/>
             </div>
           </div>
           </div>
           <div class="col-md-8">
-          <div className="jumbotron">
-            <div className="h5">{this.state.displayName}</div>
-              <div className="items-container">
-              {this.state.displayData}
+
+            {/* <div className="jumbotron">
+              <div className="h5">
+                {this.state.displayName}
               </div>
-            </div>
+              <div className="items-container">
+                {this.state.displayData}
+              </div>
+            </div> */}
+
+            <div className="jumbotron">
+			        <div className="players-container">
+			          <div className="player">
+			            <div className="header"><strong>{this.state.displayName}</strong></div>
+			          </div>
+			          <div className="movies-container" id="results">
+                  {this.state.displayData}
+			          </div>
+			        </div>
+			      </div>
+
+
           </div>
           </div>
           </div>

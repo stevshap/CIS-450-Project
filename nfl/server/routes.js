@@ -85,8 +85,8 @@ function playersOnMostTeams(req, res) {
   connection.query(query, function(err, rows, fields) {
     if (err) console.log(err);
     else {
-      console.log("made");
-      console.log(rows);
+      // console.log("made");
+      // console.log(rows);
       res.json(rows);
     }
   });
