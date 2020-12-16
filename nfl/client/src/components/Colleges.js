@@ -14,58 +14,36 @@ export default class Colleges extends React.Component {
       displayName: "",
     }
 
-    this.playersMostRushesExecuted = this.playersMostRushesExecuted.bind(this);
+    this.collegeAndPositionToPlayInNFL = this.collegeAndPositionToPlayInNFL.bind(this);
+    this.collegesByNumberOfPros = this.collegesByNumberOfPros.bind(this);
   }
 
-  playersMostRushesExecuted() {
+  collegesByNumberOfPros() {
     // Send an HTTP request to the server.
-    fetch("http://localhost:8081/playersByNumberOfRunPlays", {
+    fetch("http://localhost:8081/collegesByNumberOfPros", {
       method: 'GET' // The type of HTTP request.
     })
       .then(res => res.json()) // Convert the response data to a JSON.
-      .then(playerList => {
-        if (!playerList) return;
+      .then(collegeList => {
+        if (!collegeList) return;
         // Map each teamObj in teamList to an HTML element:
         // A button which triggers the showMovies function for each team.
-        let playerDivs = playerList.map((playerObj, i) =>
-          <ItemButton id={"button-" + playerObj.name} onClick={() => this.showPlayers(playerObj.name)} item={playerObj.name + ": " + playerObj.rushes} />
+        let collegeDivs = collegeList.map((collegeObj, i) =>
+          <ItemButton id={"button-" + collegeObj.college} onClick={() => this.showPlayers(collegeObj.college)} item={collegeObj.name + ": " + collegeObj.playerCount} />
         );
 
         // Set the state of the teams list to the value returned by the HTTP response from the server.
         this.setState({
-          displayData: playerDivs,
-          displayName: "Players With the Most Successful Rushes"
+          displayData: collegeDivs,
+          displayName: "Colleges Ranked by NFL Players Produced"
         })
       })
       .catch(err => console.log(err))	// Print the error if there is one.
   }
 
-  // playersMostTeamsPlayed() {
-  //   // Send an HTTP request to the server.
-  //   fetch("http://localhost:8081/playersMostTeamsPlayed", {
-  //     method: 'GET' // The type of HTTP request.
-  //   })
-  //     .then(res => res.json()) // Convert the response data to a JSON.
-  //     .then(playerList => {
-  //       if (!playerList) return;
-  //       // Map each teamObj in teamList to an HTML element:
-  //       // A button which triggers the showMovies function for each team.
-  //       let playerDivs = playerList.map((playerObj, i) =>
-  //         <ItemButton id={"button-" + playerObj.name} onClick={() => this.showPlayers(playerObj.name)} item={playerObj.name} />
-  //       );
-
-  //       // Set the state of the teams list to the value returned by the HTTP response from the server.
-  //       this.setState({
-  //         displayData: playerDivs
-  //       })
-  //     })
-  //     .catch(err => console.log(err))	// Print the error if there is one.
-  // }
-
-  // SET DEFAULT
-  componentDidMount() {
+  collegeAndPositionToPlayInNFL() {
     // Send an HTTP request to the server.
-    fetch("http://localhost:8081/playersMostTeamsPlayed", {
+    fetch("http://localhost:8081/collegeAndPositionToPlayInNFL", {
       method: 'GET' // The type of HTTP request.
     })
       .then(res => res.json()) // Convert the response data to a JSON.
@@ -74,13 +52,39 @@ export default class Colleges extends React.Component {
         // Map each teamObj in teamList to an HTML element:
         // A button which triggers the showMovies function for each team.
         let playerDivs = playerList.map((playerObj, i) =>
-          <ItemButton id={"button-" + playerObj.name} onClick={() => this.showPlayers(playerObj.name)} item={playerObj.name + ": " + playerObj.num_teams_played_for} />
+          <ItemButton id={"button-" + playerObj.name} onClick={() => this.showPlayers(playerObj.name)} item={playerObj.name + " - " + playerObj.teamName} />
         );
 
         // Set the state of the teams list to the value returned by the HTTP response from the server.
         this.setState({
           displayData: playerDivs,
-          displayName: "Players Who Have Played on the Most NFL Teams"
+          displayName: "UPenn Linebackers Now Playing in the NFL"
+        })
+      })
+      .catch(err => console.log(err))	// Print the error if there is one.
+  }
+
+
+
+
+  componentDidMount() {
+    // Send an HTTP request to the server.
+    fetch("http://localhost:8081/collegesByNumberOfPros", {
+      method: 'GET' // The type of HTTP request.
+    })
+      .then(res => res.json()) // Convert the response data to a JSON.
+      .then(collegeList => {
+        if (!collegeList) return;
+        // Map each teamObj in teamList to an HTML element:
+        // A button which triggers the showMovies function for each team.
+        let collegeDivs = collegeList.map((collegeObj, i) =>
+          <ItemButton id={"button-" + collegeObj.college} onClick={() => this.showPlayers(collegeObj.college)} item={collegeObj.college + ": " + collegeObj.playerCount} />
+        );
+
+        // Set the state of the teams list to the value returned by the HTTP response from the server.
+        this.setState({
+          displayData: collegeDivs,
+          displayName: "Colleges Ranked by NFL Players Produced"
         })
       })
       .catch(err => console.log(err))	// Print the error if there is one.
@@ -100,8 +104,8 @@ export default class Colleges extends React.Component {
           <div className="jumbotron bg-dark box text-white">
             <div className="h5">Search for Team Stats: </div>
             <div className="items-container">
-            <ItemButton id={"query-playersMostTeamsPlayed"} onClick={() => this.componentDidMount()} item={"Players Who Have Played on the Most NFL Teams"}/>
-            <ItemButton id={"query-playersMostRushesExecuted"} onClick={() => this.playersMostRushesExecuted()} item={"Players With the Most Successful Rushes"}/>
+            <ItemButton id={"query-collegesByNumberOfPros"} onClick={() => this.collegesByNumberOfPros()} item={"Colleges Ranked by NFL Players Produced"}/>
+            <ItemButton id={"query-collegeAndPositionToPlayInNFL"} onClick={() => this.collegeAndPositionToPlayInNFL()} item={"UPenn Linebackers Now Playing in the NFL"}/>
             </div>
           </div>
           </div>
