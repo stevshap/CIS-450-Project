@@ -208,34 +208,27 @@ else {
 };
 
 
-// /* ---- Q2 (Recommendations) ---- */
-// function getRecs(req, res) {
-//   //console.log("hi");
-//   var inputName = req.params.name;
-//   //console.log(inputName);
-//   var query = `
-//     WITH ThisMovGenres AS (
-//       SELECT m.title, m.id, g.genre
-//       FROM Genres g JOIN Movies m ON m.id = g.movie_id
-//       WHERE m.title = '${inputName}'
-//     ),
-//     ThisGenreCount AS (
-//       SELECT title, id, COUNT(*) as numGenres
-//       FROM ThisMovGenres
-//       GROUP BY title
-//     ),
-//     MatchesByGenre AS (
-//       SELECT m.title, m.id, m.rating, m.vote_count, COUNT(*) as numGenres
-//       FROM Movies m JOIN Genres g ON m.id = g.movie_id
-//       JOIN ThisMovGenres mg ON g.genre = mg.genre
-//       WHERE m.id <> mg.id
-//       GROUP BY m.id 
-//     )
-
-//     SELECT m1.title, m1.id, m1.rating, m1.vote_count
-//     FROM MatchesByGenre m1 JOIN ThisGenreCount m2 ON m1.numGenres = m2.numGenres
-//     ORDER BY m1.rating DESC, m1.vote_count DESC
-//     LIMIT 5;
+/* ---- hometown search for players ---- */
+function getPlayersFromHometown(req, res) {
+  //console.log("hi");
+  var search= req.params.search;
+  //console.log(inputName);
+  var query = `
+    SELECT DISTINCT nfl_iD,
+      season,
+      name,
+      COUNT(*) AS num_years_played
+    FROM Players
+    WHERE home_town LIKE '%${search}'
+    `;
+    connection.query(query, function(err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      //console.log(rows);
+      res.json(rows);
+}
+});
+};
 
 /* ---- get all linebackers from UPenn who played in the NFL  ---- */
 function uPennLinebackersToPlayInNFL(req, res) {
@@ -331,6 +324,7 @@ module.exports = {
   runningBacksWithMostSeasons: runningBacksWithMostSeasons,
   uPennLinebackersToPlayInNFL: uPennLinebackersToPlayInNFL,
   collegesWithMostPlayersSentToNFL: collegesWithMostPlayersSentToNFL,
-  playersWithMostRunPlaysExecuted: playersWithMostRunPlaysExecuted
+  playersWithMostRunPlaysExecuted: playersWithMostRunPlaysExecuted,
+  getPlayersFromHometown: getPlayersFromHometown,
 
 }

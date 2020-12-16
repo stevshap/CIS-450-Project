@@ -40,7 +40,7 @@ app.get('/collegesByNumberOfPros', routes.collegesWithMostPlayersSentToNFL);
 app.get('/playersByNumberOfRunPlays', routes.playersWithMostRunPlaysExecuted);
 
 
-
+app.get('/getPlayersFromHometown/:search',routes.getPlayersFromHometown);
 
 
 app.listen(8081, () => {

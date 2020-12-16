@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import PageNavbar from './PageNavbar';
 import ItemButton from './ItemButton';
 import Autocomplete from './Autocomplete';
+import Button from 'react-bootstrap/Button'
 
 
 export default class Hometowns extends React.Component {
@@ -13,7 +14,7 @@ export default class Hometowns extends React.Component {
     this.state = {
       displayData: [],
       displayName: "",
-      hometown: "CA", 
+      search: "", 
       hometowns: [],
     }
 
@@ -21,6 +22,37 @@ export default class Hometowns extends React.Component {
     this.hometownsMostPassPlays = this.hometownsMostPassPlays.bind(this);
     this.hometownsFewestRushPlays = this.hometownsFewestRushPlays.bind(this);
     this.getAllHometowns = this.getAllHometowns.bind(this);
+    this.handleInput = this.handleInput.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+  }
+
+  handleInput(event) {
+    this.setState({search: event.target.value});
+  }
+
+  handleSearch() {
+    fetch("http://localhost:8081/getPlayersFromHometown/" + this.state.search, {
+      		method: 'GET'
+    	})
+	      .then(res => res.json()) 
+	      .then(searchList => {
+	        if (searchList.length===0){
+            this.setState({
+              displayData: <ItemButton item={"No Search Results Found"}/>
+            });
+
+          } else{
+	        let searchListDiv = searchList.map((searchObj, i) => (
+	          <ItemButton id={searchObj.home_town+"-i"} item={searchObj.name}/>
+          ));
+          
+	        this.setState({
+                displayName: "Players from " + this.state.search,
+	            displayData: searchListDiv
+	        })}
+          })
+          .catch(err => console.log(err)) 
+          console.log("dshf");
   }
 
   getAllHometowns() {
@@ -153,7 +185,12 @@ export default class Hometowns extends React.Component {
         <div class="col-md-4">
           <div className="jumbotron bg-dark box text-white">
             <div className="h5">Search for Hometowns: </div>
-            <Autocomplete suggestions={this.state.hometowns}/>
+
+            <div className="row">
+            <input type='text'id="search-form" value={this.state.search} onChange={this.handleInput} suggestions={this.state.hometowns}/>
+            <Button variant="success" onClick={this.handleSearch}>Search</Button>
+            </div>
+            
             <div className="items-container">
             <ItemButton id={"query-hometownsMostPassPlays"} onClick={() => this.hometownsMostPassPlays()} item={"Hometowns With the Most NFL Pass Plays On Average"}/>
             <ItemButton id={"query-hometownsFewestRushPlays"} onClick={() => this.hometownsFewestRushPlays()} item={"Hometowns With the Fewest NFL Rush Plays On Average"}/>
