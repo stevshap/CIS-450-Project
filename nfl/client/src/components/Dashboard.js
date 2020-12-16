@@ -126,6 +126,27 @@ export default class Dashboard extends React.Component {
 
   // React function that is called when the page load.
   componentDidMount() {
+    // Send an HTTP request to the server.
+    fetch("http://localhost:8081/teams", {
+      method: 'GET' // The type of HTTP request.
+    })
+      .then(res => res.json()) // Convert the response data to a JSON.
+      .then(teamList => {
+        if (!teamList) return;
+        // Map each teamObj in teamList to an HTML element:
+        // A button which triggers the showMovies function for each team.
+        let teamDivs = teamList.map((teamObj, i) =>
+          <ItemButton id={"button-" + teamObj.name} onClick={() => this.showPlayers(teamObj.name)} item={teamObj.name} />
+        );
+
+        // Set the state of the teams list to the value returned by the HTTP response from the server.
+        this.setState({
+          displayName: "NFL Teams",
+          displayData: teamDivs
+        })
+      })
+      .catch(err => console.log(err))	// Print the error if there is one.
+
 
   }
 

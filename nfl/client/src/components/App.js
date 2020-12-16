@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import Dashboard from './Dashboard';
 import Players from './Players';
+import Teams from './Teams';
 
 export default class App extends React.Component {
 
@@ -35,12 +36,12 @@ export default class App extends React.Component {
 								<Players />
 							)}
 						/>
-						{/* <Route
-							path="/bestgenres"
+						<Route
+							path="/teams"
 							render={() => (
-								<BestGenres />
+								<Teams />
 							)}
-						/> */}
+						/>
 							
 					</Switch>
 				</Router>

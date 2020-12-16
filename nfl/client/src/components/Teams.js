@@ -5,7 +5,7 @@ import PageNavbar from './PageNavbar';
 import ItemButton from './ItemButton';
 
 
-export default class Players extends React.Component {
+export default class Teams extends React.Component {
   constructor(props) {
     super(props);
 
@@ -95,7 +95,7 @@ export default class Players extends React.Component {
         <div className="row">
         <div class="col-md-4">
           <div className="jumbotron bg-dark box text-white">
-            <div className="h5">Search for Players: </div>
+            <div className="h5">Search for Team Stats: </div>
             <div className="items-container">
             <ItemButton id={"query-playersMostTeamsPlayed"} onClick={() => this.componentDidMount()} item={"Players Who Have Played on the Most NFL Teams"}/>
             <ItemButton id={"query-playersMostRushesExecuted"} onClick={() => this.playersMostRushesExecuted()} item={"Players With the Most Successful Rushes"}/>
