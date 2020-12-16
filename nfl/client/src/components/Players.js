@@ -172,7 +172,7 @@ export default class Players extends React.Component {
             </div>
             <div className="items-container">
             <ItemButton id={"query-playersMostTeamsPlayed"} onClick={() => this.componentDidMount()} item={"Players Who Have Played the Most NFL Seasons"}/>
-            <ItemButton id={"query-playersMostRushesExecuted"} onClick={() => this.playersMostRunPlays()} item={"Players With the Most Successful Rushes"}/>
+            <ItemButton id={"query-playersMostRunPlays"} onClick={() => this.playersMostRunPlays()} item={"Players With the Most Run Plays"}/>
             <ItemButton id={"query-runningBacksWithMostSeasons"} onClick={() => this.runningBacksWithMostSeasons()} item={"Top 5 California Running Back Season Counts"}/>
             </div>
           </div>
