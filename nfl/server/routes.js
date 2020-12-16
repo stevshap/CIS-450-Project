@@ -56,6 +56,7 @@ function getAllHometowns(req, res) {
   var query = `
   SELECT DISTINCT home_town AS name
   FROM Players
+  WHERE home_town != ""
 `;
 connection.query(query, function(err, rows, fields) {
   if (err) console.log(err);

@@ -141,7 +141,7 @@ export default class Dashboard extends React.Component {
         <div className="row">
         <div class="col-md-4">
           <div className="jumbotron bg-dark box text-white">
-            <div className="h5">Choose a Filter on NFL Statistics</div>
+            <div className="h5">Choose a Filter: </div>
             <div className="items-container">
             <ItemButton id={"filter-players"} onClick={() => this.filterByPlayers()} item={"Players"}/>
             <ItemButton id={"filter-teams"} onClick={() => this.filterByTeams()} item={"Teams"}/>
