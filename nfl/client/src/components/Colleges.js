@@ -66,7 +66,7 @@ export default class Colleges extends React.Component {
         // Map each teamObj in teamList to an HTML element:
         // A button which triggers the showMovies function for each team.
         let collegeDivs = collegeList.map((collegeObj, i) =>
-          <ItemButton id={"button-" + collegeObj.college} onClick={() => this.showPlayers(collegeObj.college)} item={collegeObj.name + ": " + collegeObj.playerCount} />
+          <ItemButton id={"button-" + collegeObj.college} onClick={() => this.showPlayers(collegeObj.college)} item={collegeObj.college + ": " + collegeObj.playerCount} />
         );
 
         // Set the state of the teams list to the value returned by the HTTP response from the server.
