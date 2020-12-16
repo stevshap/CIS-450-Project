@@ -6,7 +6,8 @@ import {
 } from 'react-router-dom';
 import Dashboard from './Dashboard';
 import Players from './Players';
-import Teams from './Teams';
+import Colleges from './Colleges';
+import Hometowns from './Hometowns';
 
 export default class App extends React.Component {
 
@@ -37,12 +38,17 @@ export default class App extends React.Component {
 							)}
 						/>
 						<Route
-							path="/teams"
+							path="/colleges"
 							render={() => (
-								<Teams />
+								<Colleges />
 							)}
 						/>
-							
+						<Route
+							path="/hometowns"
+							render={() => (
+								<Hometowns />
+							)}
+						/>	
 					</Switch>
 				</Router>
 			</div>
