@@ -5,7 +5,7 @@ import PageNavbar from './PageNavbar';
 import ItemButton from './ItemButton';
 
 
-export default class PlayersPage extends React.Component {
+export default class Players extends React.Component {
   constructor(props) {
     super(props);
 

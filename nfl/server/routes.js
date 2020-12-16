@@ -12,7 +12,7 @@ var connection = mysql.createPool(config);
 /* ---- get teams *TEST QUERY (Dashboard) ---- */
 function getAllTeams(req, res) {
     var query = `
-    SELECT DISTINCT nickname
+    SELECT DISTINCT nickname AS name
     FROM Teams
   `;
   connection.query(query, function(err, rows, fields) {
@@ -22,6 +22,49 @@ function getAllTeams(req, res) {
     }
   });
 };
+
+/* ---- get players *TEST QUERY (Dashboard) ---- */
+function getAllPlayers(req, res) {
+  var query = `
+  SELECT DISTINCT name
+  FROM Players
+`;
+connection.query(query, function(err, rows, fields) {
+  if (err) console.log(err);
+  else {
+    res.json(rows);
+  }
+});
+};
+
+/* ---- get colleges *TEST QUERY (Dashboard) ---- */
+function getAllColleges(req, res) {
+  var query = `
+  SELECT DISTINCT college AS name
+  FROM Players
+`;
+connection.query(query, function(err, rows, fields) {
+  if (err) console.log(err);
+  else {
+    res.json(rows);
+  }
+});
+};
+
+/* ---- get colleges *TEST QUERY (Dashboard) ---- */
+function getAllHometowns(req, res) {
+  var query = `
+  SELECT DISTINCT home_town AS name
+  FROM Players
+`;
+connection.query(query, function(err, rows, fields) {
+  if (err) console.log(err);
+  else {
+    res.json(rows);
+  }
+});
+};
+
 
 /* ---- PLAYERS PAGE  ---- */
 
@@ -163,6 +206,35 @@ else {
 };
 
 
+// /* ---- Q2 (Recommendations) ---- */
+// function getRecs(req, res) {
+//   //console.log("hi");
+//   var inputName = req.params.name;
+//   //console.log(inputName);
+//   var query = `
+//     WITH ThisMovGenres AS (
+//       SELECT m.title, m.id, g.genre
+//       FROM Genres g JOIN Movies m ON m.id = g.movie_id
+//       WHERE m.title = '${inputName}'
+//     ),
+//     ThisGenreCount AS (
+//       SELECT title, id, COUNT(*) as numGenres
+//       FROM ThisMovGenres
+//       GROUP BY title
+//     ),
+//     MatchesByGenre AS (
+//       SELECT m.title, m.id, m.rating, m.vote_count, COUNT(*) as numGenres
+//       FROM Movies m JOIN Genres g ON m.id = g.movie_id
+//       JOIN ThisMovGenres mg ON g.genre = mg.genre
+//       WHERE m.id <> mg.id
+//       GROUP BY m.id 
+//     )
+
+//     SELECT m1.title, m1.id, m1.rating, m1.vote_count
+//     FROM MatchesByGenre m1 JOIN ThisGenreCount m2 ON m1.numGenres = m2.numGenres
+//     ORDER BY m1.rating DESC, m1.vote_count DESC
+//     LIMIT 5;
+
 /* ---- get all linebackers from UPenn who played in the NFL  ---- */
 function uPennLinebackersToPlayInNFL(req, res) {
 var query = `
@@ -252,6 +324,9 @@ function sum(a, b) {
 // The exported functions, which can be accessed in index.js.
 module.exports = {
   getAllTeams: getAllTeams,
+  getAllPlayers: getAllPlayers,
+  getAllColleges: getAllColleges,
+  getAllHometowns: getAllHometowns,
   playersOnMostTeams: playersOnMostTeams,
   sum: sum
 

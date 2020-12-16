@@ -20,9 +20,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // The route localhost:8081/genres is registered to the function
 // routes.getAllGenres, specified in routes.js.
 app.get('/teams', routes.getAllTeams);
+app.get('/players', routes.getAllPlayers);
+app.get('/colleges', routes.getAllColleges);
+app.get('/hometowns', routes.getAllHometowns);
 
 
 app.get('/playersMostTeamsPlayed', routes.playersOnMostTeams);
+
+
+
 
 
 

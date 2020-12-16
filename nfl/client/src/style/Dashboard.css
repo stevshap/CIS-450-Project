@@ -20,7 +20,7 @@
 
 .items-container {
   max-width: 100%;
-  margin: 10px 0;
+  margin: 5px 0;
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
@@ -55,7 +55,7 @@
 }
 
 body {
-  font-family: "Helvetica Neue",sans-serif;
+  font-family: "Tahoma",sans-serif;
   font-weight: lighter;
 }
 
