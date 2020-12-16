@@ -5,6 +5,7 @@ import {
 	Switch
 } from 'react-router-dom';
 import Dashboard from './Dashboard';
+import Players from './Players';
 
 export default class App extends React.Component {
 
@@ -27,20 +28,20 @@ export default class App extends React.Component {
 								<Dashboard />
 							)}
 						/>
-						{/*}
+			
 						<Route
-							path="/recommendations"
+							path="/players"
 							render={() => (
-								<Recommendations />
+								<Players />
 							)}
 						/>
-						<Route
+						{/* <Route
 							path="/bestgenres"
 							render={() => (
 								<BestGenres />
 							)}
-						/>
-							*/}
+						/> */}
+							
 					</Switch>
 				</Router>
 			</div>
