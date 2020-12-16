@@ -17,7 +17,7 @@ export default class Players extends React.Component {
   // React function that is called when the page load.
   componentDidMount() {
     // Send an HTTP request to the server.
-    fetch("http://localhost:8081//playersMostTeamsPlayed", {
+    fetch("http://localhost:8081/playersMostTeamsPlayed", {
       method: 'GET' // The type of HTTP request.
     })
       .then(res => res.json()) // Convert the response data to a JSON.
