@@ -79,12 +79,13 @@ function playersOnMostTeams(req, res) {
     COUNT(*) AS num_teams_played_for
     FROM Players
     GROUP BY nfl_iD
-    ORDER BY num_teams_played_for DESC;
+    ORDER BY num_teams_played_for DESC
   `;
   connection.query(query, function(err, rows, fields) {
     if (err) console.log(err);
     else {
-      //console.log(rows);
+      console.log("made");
+      console.log(rows);
       res.json(rows);
     }
   });
@@ -136,7 +137,7 @@ function hometownsWithMostNFLPassPlaysOnAvg(req, res) {
       AVG(p.num_passer_plays) AS avg_passer_plays
   FROM Top5HomeCities t
       JOIN PasserPlaysFromTop5 p ON t.home_town = p.home_town
-  GROUP BY t.home_town;
+  GROUP BY t.home_town
 `;
 connection.query(query, function(err, rows, fields) {
   if (err) console.log(err);
@@ -170,7 +171,7 @@ var query = `
       AVG(ru.num_rusher_plays) AS avg_rusher_plays
   FROM Lowest5HomeCities t
       JOIN RusherPlaysFromLow5 ru ON t.home_town = ru.home_town
-  GROUP BY t.home_town;
+  GROUP BY t.home_town
 `;
 connection.query(query, function(err, rows, fields) {
 if (err) console.log(err);
@@ -194,7 +195,7 @@ WHERE position = 'RB'
   AND home_town LIKE '%CA'
 GROUP BY nfl_iD
 ORDER BY num_years_played DESC
-LIMIT 5;
+LIMIT 5
 `;
 connection.query(query, function(err, rows, fields) {
 if (err) console.log(err);
@@ -250,7 +251,7 @@ WITH UPennLinebackers AS (
 SELECT DISTINCT upenn.name,
   t.nickname AS teamName
 FROM UPennLinebackers upenn
-  JOIN Teams t ON t.team_id = upenn.team_id;
+  JOIN Teams t ON t.team_id = upenn.team_id
 `;
 connection.query(query, function(err, rows, fields) {
 if (err) console.log(err);
@@ -280,7 +281,7 @@ SELECT college,
 FROM UniquePlayers
 GROUP BY college
 ORDER BY playerCount DESC
-LIMIT 10;
+LIMIT 10
 `;
 connection.query(query, function(err, rows, fields) {
 if (err) console.log(err);
@@ -292,7 +293,7 @@ else {
 };
 
 /* ---- get the 10 rushers with the most NFL rush attempts ---- */
-function PlayersWithMostRunPlaysExecuted(req, res) {
+function playersWithMostRunPlaysExecuted(req, res) {
 var query = `
 WITH Runs AS (
   SELECT rusher_id,
@@ -306,7 +307,7 @@ SELECT Players.name as name,
 FROM Runs
     JOIN Players ON Runs.rusher_id = Players.global_id
 ORDER BY count DESC
-LIMIT 10;
+LIMIT 10
 `;
 connection.query(query, function(err, rows, fields) {
 if (err) console.log(err);
@@ -317,10 +318,6 @@ else {
 });
 };
 
-function sum(a, b) {
-  return a + b;
-}
-
 // The exported functions, which can be accessed in index.js.
 module.exports = {
   getAllTeams: getAllTeams,
@@ -328,6 +325,11 @@ module.exports = {
   getAllColleges: getAllColleges,
   getAllHometowns: getAllHometowns,
   playersOnMostTeams: playersOnMostTeams,
-  sum: sum
+  hometownsWithMostNFLPassPlaysOnAvg: hometownsWithMostNFLPassPlaysOnAvg,
+  hometownsWithFewestNFLRushPlaysOnAvg: hometownsWithFewestNFLRushPlaysOnAvg,
+  runningBacksWithMostSeasons: runningBacksWithMostSeasons,
+  uPennLinebackersToPlayInNFL: uPennLinebackersToPlayInNFL,
+  collegesWithMostPlayersSentToNFL: collegesWithMostPlayersSentToNFL,
+  playersWithMostRunPlaysExecuted: playersWithMostRunPlaysExecuted
 
 }
