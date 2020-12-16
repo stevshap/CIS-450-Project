@@ -3,6 +3,7 @@ import '../style/Dashboard.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PageNavbar from './PageNavbar';
 import ItemButton from './ItemButton';
+import Autocomplete from './Autocomplete';
 
 
 export default class Colleges extends React.Component {
@@ -12,12 +13,35 @@ export default class Colleges extends React.Component {
     this.state = {
       displayData: [],
       displayName: "",
+      colleges: [],
     }
 
     this.collegeAndPositionToPlayInNFL = this.collegeAndPositionToPlayInNFL.bind(this);
     this.collegesByNumberOfPros = this.collegesByNumberOfPros.bind(this);
+    this.getAllColleges = this.getAllColleges.bind(this);
   }
+  getAllColleges() {
+    // Send an HTTP request to the server.
+    fetch("http://localhost:8081/colleges", {
+      method: 'GET' // The type of HTTP request.
+    })
+      .then(res => res.json()) // Convert the response data to a JSON.
+      .then(collegeList => {
+        if (!collegeList) return;
+        // Map each teamObj in teamList to an HTML element:
+        // A button which triggers the showMovies function for each team.
+        let collegeDivs = collegeList.map((collegeObj, i) =>
+          <ItemButton id={"button-" + collegeObj.name} onClick={() => this.showPlayers(collegeObj.name)} item={collegeObj.name} />
+        );
 
+        // Set the state of the teams list to the value returned by the HTTP response from the server.
+        this.setState({
+          colleges: collegeDivs
+        })
+      })
+      .catch(err => console.log(err))	// Print the error if there is one.
+
+  }
   collegesByNumberOfPros() {
     // Send an HTTP request to the server.
     fetch("http://localhost:8081/collegesByNumberOfPros", {
@@ -68,6 +92,7 @@ export default class Colleges extends React.Component {
 
 
   componentDidMount() {
+    this.getAllColleges();
     // Send an HTTP request to the server.
     fetch("http://localhost:8081/collegesByNumberOfPros", {
       method: 'GET' // The type of HTTP request.
@@ -102,7 +127,8 @@ export default class Colleges extends React.Component {
         <div className="row">
         <div class="col-md-4">
           <div className="jumbotron bg-dark box text-white">
-            <div className="h5">Search for Team Stats: </div>
+            <div className="h5">Search for Colleges: </div>
+            <Autocomplete suggestions={this.state.colleges}/>
             <div className="items-container">
             <ItemButton id={"query-collegesByNumberOfPros"} onClick={() => this.collegesByNumberOfPros()} item={"Colleges Ranked by NFL Players Produced"}/>
             <ItemButton id={"query-collegeAndPositionToPlayInNFL"} onClick={() => this.collegeAndPositionToPlayInNFL()} item={"UPenn Linebackers Now Playing in the NFL"}/>

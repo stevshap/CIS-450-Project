@@ -3,6 +3,7 @@ import '../style/Dashboard.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PageNavbar from './PageNavbar';
 import ItemButton from './ItemButton';
+import Autocomplete from './Autocomplete';
 
 
 export default class Dashboard extends React.Component {

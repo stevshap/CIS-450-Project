@@ -3,6 +3,7 @@ import '../style/Dashboard.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PageNavbar from './PageNavbar';
 import ItemButton from './ItemButton';
+import Autocomplete from './Autocomplete';
 
 
 export default class Players extends React.Component {
@@ -12,10 +13,35 @@ export default class Players extends React.Component {
     this.state = {
       displayData: [],
       displayName: "",
+      players: [],
     }
 
     this.playersMostRunPlays = this.playersMostRunPlays.bind(this);
     this.runningBacksWithMostSeasons = this.runningBacksWithMostSeasons.bind(this);
+    this.getAllPlayers = this.getAllPlayers.bind(this);
+  }
+
+    getAllPlayers() {
+    // Send an HTTP request to the server.
+    fetch("http://localhost:8081/players", {
+      method: 'GET' // The type of HTTP request.
+    })
+      .then(res => res.json()) // Convert the response data to a JSON.
+      .then(playerList => {
+        if (!playerList) return;
+        // Map each teamObj in teamList to an HTML element:
+        // A button which triggers the showMovies function for each team.
+        let playerDivs = playerList.map((playerObj, i) =>
+          <ItemButton id={"button-" + playerObj.name} onClick={() => this.showPlayers(playerObj.name)} item={playerObj.name} />
+        );
+
+        // Set the state of the teams list to the value returned by the HTTP response from the server.
+        this.setState({
+          players: playerDivs
+        })
+      })
+      .catch(err => console.log(err))	// Print the error if there is one.
+
   }
 
   runningBacksWithMostSeasons() {
@@ -89,6 +115,7 @@ export default class Players extends React.Component {
 
   // SET DEFAULT
   componentDidMount() {
+    this.getAllPlayers(); //get the autofill list
     // Send an HTTP request to the server.
     fetch("http://localhost:8081/playersMostTeamsPlayed", {
       method: 'GET' // The type of HTTP request.
@@ -124,6 +151,7 @@ export default class Players extends React.Component {
         <div class="col-md-4">
           <div className="jumbotron bg-dark box text-white">
             <div className="h5">Search for Players: </div>
+            <Autocomplete suggestions={this.state.players}/>
             <div className="items-container">
             <ItemButton id={"query-playersMostTeamsPlayed"} onClick={() => this.componentDidMount()} item={"Players Who Have Played on the Most NFL Teams"}/>
             <ItemButton id={"query-playersMostRushesExecuted"} onClick={() => this.playersMostRunPlays()} item={"Players With the Most Successful Rushes"}/>
